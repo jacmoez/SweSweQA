@@ -90,5 +90,6 @@ class TestSwagTst:
         print("="*50)
 
 
+#pytest saue_demo_report_pytest_html.py --html=report.html
 
 
