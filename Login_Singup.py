@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 import random
+import os
 
 class TestRenovation:
 
@@ -45,15 +46,9 @@ class TestRenovation:
         if my_profile_url == url : print("Login Success!")
         else : print("Login Fail!")
 
-        self.driver.find_element(By.XPATH, my_profile).click()
 
-        #Login Click
-        self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/div/header/div/div[2]/div/div[2]/div/div[2]/div").click()
 
-        #Login btn
-        self.driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div[2]/form/div/div/button[2]").click()
 
-        print("Test 3 : Login Verify")
 
     def test_sing_up(self):
 
@@ -100,11 +95,51 @@ class TestRenovation:
         time.sleep(2)
 
         #3 Property Status
-        self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/form[2]/div/div[2]/div/div[1]/div/fieldset[2]/div/button[1]").click()
+        property_stats = self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/form[2]/div/div[2]/div/div[1]/div/fieldset[2]/div/button[1]")
+        self.driver.execute_script("arguments[0].scrollIntoView();",property_stats)
+        time.sleep(2)
+        property_stats.click()
 
         #Yes Key
         self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/form[2]/div/div[2]/div/div[1]/div/fieldset[3]/div/button[1]").click()
 
+        #Upload File
+
+        img_path1 = os.path.abspath("/Users/user/Desktop/Screenshot 2024-11-20 at 19.35.02.png")
+        img_path2 = os.path.abspath("/Users/user/Desktop/Screenshot 2024-12-05 at 12.12.19.png")
+
+        img_path = f"{img_path1}\n{img_path2}"
+
+        self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/form[2]/div/div[2]/div/div[1]/div/fieldset[4]/input").send_keys(img_path)
+
+        #btn Next
+        self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/div/div[2]/div/div[2]/button").click()
+
+        #Image Click
+        time.sleep(2)
+
+        el=self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/form[3]/div/div[2]/div/div[1]/div/ul/li[37]")
+        self.driver.execute_script("arguments[0].scrollIntoView();",el)
+        time.sleep(2)
+        el.click()
+
+        #btn Submit
+        self.driver.find_element(By.XPATH, "/html/body/div/div/main/div/div/div[2]/div/div[2]/button").click()
+        print("Test 5: ", "Sing Up Success")
+
+    def test_logout(self):
+        my_profile = "/html/body/div/div/div[2]/div/header/div/div[2]/div/div[2]/div/div[1]/div/span"
+        self.driver.find_element(By.XPATH, my_profile).click()
+
+        #Logout Click
+        self.driver.find_element(By.XPATH, "/html/body/div/div/div[2]/div/header/div/div[2]/div/div[2]/div/div[2]/div").click()
+
+        #Logout btn
+        self.driver.find_element(By.XPATH, "/html/body/div/div/div[4]/div[2]/form/div/div/button[2]").click()
+
+        print("Test 6 : Logout Success")
+
+    # /html/body/div/div/main/div/form[3]/div/div[2]/div/div[1]/div/ul/li[27]/div[1]/div/img
 
     def test_main(self):
         self.test_open_browser()
@@ -113,15 +148,13 @@ class TestRenovation:
         self.test_sing_up()
         self.test_step_one()
         self.test_step_two()
+        time.sleep(5)
+        self.test_login_verify()
+        #self.test_logout()
 
 
 TestRenovation().test_main()
 
-# import random
-#
-# phone_number = [random.randint(0,9) for _ in range(4)]
-# print(phone_number)
-# num = "".join(str(x) for x in phone_number)
-# print(num)
+
 
 
